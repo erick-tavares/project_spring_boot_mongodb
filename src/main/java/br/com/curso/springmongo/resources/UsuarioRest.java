@@ -1,6 +1,7 @@
 package br.com.curso.springmongo.resources;
 
 import br.com.curso.springmongo.domain.Usuario;
+import br.com.curso.springmongo.dto.UsuarioDTO;
 import br.com.curso.springmongo.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -8,7 +9,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(value = "/usuarios")
@@ -18,10 +21,17 @@ public class UsuarioRest {
     private UsuarioService usuarioService;
 
     @GetMapping
-    public ResponseEntity <List<Usuario>> getAll() {
+    public ResponseEntity <List<UsuarioDTO>> getAll() {
         List<Usuario> usuarioList = usuarioService.findAll();
+        //Lambda
+        //List<UsuarioDTO> dtoList = usuarioList.stream().map(x -> new UsuarioDTO()).collect(Collectors.toList());
+        List<UsuarioDTO> dtoList = new ArrayList<>();
 
-        return ResponseEntity.ok().body(usuarioList);
+        for(Usuario user : usuarioList){
+            UsuarioDTO dto = new UsuarioDTO().of(user);
+            dtoList.add(dto);
+        }
+        return ResponseEntity.ok().body(dtoList);
     }
 
 }
