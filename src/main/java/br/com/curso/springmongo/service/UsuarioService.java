@@ -1,6 +1,7 @@
 package br.com.curso.springmongo.service;
 
 import br.com.curso.springmongo.domain.Usuario;
+import br.com.curso.springmongo.dto.UsuarioDTO;
 import br.com.curso.springmongo.repository.UsuarioRepository;
 import br.com.curso.springmongo.service.exception.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +26,16 @@ public class UsuarioService {
             return usuario.get();
         }
         throw new ObjectNotFoundException("Usuario não encontrado");
+    }
 
+    public Usuario insert(Usuario usuario){
+        return usuarioRepository.insert(usuario);
+    }
+
+    public Usuario fromDTO(UsuarioDTO usuario) {
+        return new Usuario(
+                usuario.getId(),
+                usuario.getNome(),
+                usuario.getEmail());
     }
 }
