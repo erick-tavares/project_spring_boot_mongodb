@@ -20,11 +20,11 @@ public class UsuarioService {
     }
 
     public Usuario findById(String id){
-        Usuario usuario = usuarioRepository.findOne(id);
-        if(usuario == null){
-            throw new ObjectNotFoundException("Usuario não encontrado");
+        Optional<Usuario> usuario = this.usuarioRepository.findById(id);
+        if (usuario.isPresent()) {
+            return usuario.get();
         }
-        return usuario;
+        throw new ObjectNotFoundException("Usuario não encontrado");
 
     }
 }
