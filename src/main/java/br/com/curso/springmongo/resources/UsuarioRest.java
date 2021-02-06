@@ -47,4 +47,11 @@ public class UsuarioRest {
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
+    @DeleteMapping(value = "/{id}")
+    public ResponseEntity <Void> deleteById(@PathVariable String id) {
+        usuarioService.delete(id);
+
+        return ResponseEntity.noContent().build();
+    }
+
 }

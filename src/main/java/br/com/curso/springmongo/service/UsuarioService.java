@@ -16,11 +16,11 @@ public class UsuarioService {
     @Autowired
     private UsuarioRepository usuarioRepository;
 
-    public List<Usuario> findAll(){
+    public List<Usuario> findAll() {
         return usuarioRepository.findAll();
     }
 
-    public Usuario findById(String id){
+    public Usuario findById(String id) {
         Optional<Usuario> usuario = this.usuarioRepository.findById(id);
         if (usuario.isPresent()) {
             return usuario.get();
@@ -28,7 +28,7 @@ public class UsuarioService {
         throw new ObjectNotFoundException("Usuario não encontrado");
     }
 
-    public Usuario insert(Usuario usuario){
+    public Usuario insert(Usuario usuario) {
         return usuarioRepository.insert(usuario);
     }
 
@@ -37,5 +37,10 @@ public class UsuarioService {
                 usuario.getId(),
                 usuario.getNome(),
                 usuario.getEmail());
+    }
+
+    public void delete(String id) {
+        findById(id);
+        usuarioRepository.deleteById(id);
     }
 }
