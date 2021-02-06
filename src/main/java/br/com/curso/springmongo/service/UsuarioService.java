@@ -43,4 +43,15 @@ public class UsuarioService {
         findById(id);
         usuarioRepository.deleteById(id);
     }
+
+    public Usuario update(Usuario usuario) {
+        Usuario novoUsuario = findById(usuario.getId());
+        updateUsuario(novoUsuario,usuario);
+        return usuarioRepository.save(novoUsuario);
+    }
+
+    private void updateUsuario(Usuario novoUsuario, Usuario usuario) {
+        novoUsuario.setEmail(usuario.getEmail());
+        novoUsuario.setNome(usuario.getNome());
+    }
 }

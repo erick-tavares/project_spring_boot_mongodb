@@ -54,4 +54,12 @@ public class UsuarioRest {
         return ResponseEntity.noContent().build();
     }
 
+    @PutMapping(value = "/{id}")
+    public ResponseEntity <Void> update(@RequestBody UsuarioDTO usuarioDTO, @PathVariable String id) {
+        Usuario usuario = usuarioService.fromDTO(usuarioDTO);
+        usuario.setId(id);
+        usuarioService.update(usuario);
+
+        return ResponseEntity.noContent().build();
+    }
 }
