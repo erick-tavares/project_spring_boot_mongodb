@@ -1,5 +1,6 @@
 package br.com.curso.springmongo.resources;
 
+import br.com.curso.springmongo.domain.Post;
 import br.com.curso.springmongo.domain.Usuario;
 import br.com.curso.springmongo.dto.UsuarioDTO;
 import br.com.curso.springmongo.service.UsuarioService;
@@ -61,5 +62,12 @@ public class UsuarioRest {
         usuarioService.update(usuario);
 
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping(value = "/{id}/posts")
+    public ResponseEntity <List<Post>> findPosts(@PathVariable String id) {
+        Usuario usuario = usuarioService.findById(id);
+
+        return ResponseEntity.ok().body(usuario.getPosts());
     }
 }

@@ -1,11 +1,15 @@
 package br.com.curso.springmongo.domain;
 
 import br.com.curso.springmongo.dto.AutorDTO;
+import br.com.curso.springmongo.dto.ComentarioDTO;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 
 @Document(collection = "post")
@@ -17,6 +21,8 @@ public class Post implements Serializable {
     private String titulo;
     private String corpo;
     private AutorDTO autor;
+
+    private List<ComentarioDTO> comentarios = new ArrayList<>();
 
     public Post() {
     }
@@ -67,6 +73,14 @@ public class Post implements Serializable {
 
     public void setAutor(AutorDTO autor) {
         this.autor = autor;
+    }
+
+    public List<ComentarioDTO> getComentarios() {
+        return comentarios;
+    }
+
+    public void setComentarios(List<ComentarioDTO> comentarios) {
+        this.comentarios = comentarios;
     }
 
     @Override

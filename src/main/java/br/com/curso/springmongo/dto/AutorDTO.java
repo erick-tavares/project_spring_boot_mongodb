@@ -12,7 +12,6 @@ public class AutorDTO implements Serializable {
     }
 
     public AutorDTO (Usuario usuario){
-        this.id = usuario.getId();
         this.nome = usuario.getNome();
     }
 
