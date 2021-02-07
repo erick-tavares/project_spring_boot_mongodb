@@ -1,10 +1,17 @@
 package br.com.curso.springmongo.config;
 
+import br.com.curso.springmongo.domain.Post;
 import br.com.curso.springmongo.domain.Usuario;
+import br.com.curso.springmongo.dto.AutorDTO;
+import br.com.curso.springmongo.repository.PostRepository;
 import br.com.curso.springmongo.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
+
+import java.text.SimpleDateFormat;
+import java.util.Arrays;
+import java.util.TimeZone;
 
 @Configuration
 public class Instantiation implements CommandLineRunner {
@@ -12,10 +19,17 @@ public class Instantiation implements CommandLineRunner {
     @Autowired
     private UsuarioRepository usuarioRepository;
 
+    @Autowired
+    private PostRepository postRepository;
+
     @Override
     public void run(String... args) throws Exception {
 
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        sdf.setTimeZone(TimeZone.getTimeZone("GMT"));
+
         usuarioRepository.deleteAll();
+        postRepository.deleteAll();
 
         Usuario maria = new Usuario(null, "Maria Brown", "maria@gmail.com");
         Usuario alex = new Usuario(null, "Alex Green", "alex@gmail.com");
@@ -24,5 +38,16 @@ public class Instantiation implements CommandLineRunner {
         usuarioRepository.save(maria);
         usuarioRepository.save(alex);
         usuarioRepository.save(bob);
+
+        Post post1 = new Post(null, sdf.parse("07/02/2021"), "Partiu viagem","vou para São Paulo", new AutorDTO(maria));
+        Post post2 = new Post(null, sdf.parse("05/02/2021"), "Bom dia","Que lindo dia", new AutorDTO(alex));
+
+        postRepository.save(post1);
+        postRepository.save(post2);
+
+        maria.getPosts().addAll(Arrays.asList(post1,post2));
+
+        usuarioRepository.save(maria);
+
     }
 }
