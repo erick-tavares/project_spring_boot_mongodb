@@ -6,6 +6,7 @@ import br.com.curso.springmongo.service.exception.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -22,5 +23,13 @@ public class PostService {
         throw new ObjectNotFoundException("Postagem não encontrada");
     }
 
+    //Consulta com Spring Data
+    public List<Post> findByTitulo(String txt){
+        return this.postRepository.findByTituloContainingIgnoreCase(txt);
+    }
 
+    //Consulta com @Query
+    public List<Post> searchByTitulo(String txt){
+        return this.postRepository.findByTitulo(txt);
+    }
 }
