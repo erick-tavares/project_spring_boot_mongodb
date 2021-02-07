@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -31,7 +32,6 @@ public class PostRest {
         return ResponseEntity.ok().body(posts);
     }
 
-
     @GetMapping(value = "/tituloquery")
     public ResponseEntity <List<Post>> searchByTitulo(@RequestParam (value="txt", defaultValue="") String txt) {
         txt = URLUtil.decodeParam(txt);
@@ -39,4 +39,18 @@ public class PostRest {
 
         return ResponseEntity.ok().body(posts);
     }
+
+    @GetMapping(value = "/fullsearch")
+    public ResponseEntity <List<Post>> fullSearch(
+            @RequestParam (value="txt", defaultValue="") String txt,
+            @RequestParam (value="minDate", defaultValue="") String minDate,
+            @RequestParam (value="maxDate", defaultValue="") String maxDate) {
+        txt = URLUtil.decodeParam(txt);
+        Date min = URLUtil.converDate(minDate, new Date(0L));
+        Date max = URLUtil.converDate(maxDate, new Date());
+        List<Post> posts = postService.fullSearch(txt, min, max);
+
+        return ResponseEntity.ok().body(posts);
+    }
+
 }

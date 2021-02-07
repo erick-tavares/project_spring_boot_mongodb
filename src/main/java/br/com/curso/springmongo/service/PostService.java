@@ -6,6 +6,7 @@ import br.com.curso.springmongo.service.exception.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -31,5 +32,13 @@ public class PostService {
     //Consulta com @Query
     public List<Post> searchByTitulo(String txt){
         return this.postRepository.findByTitulo(txt);
+    }
+
+    public List<Post> fullSearch(String txt, Date minData, Date maxData){
+        return this.postRepository.fullSearch(txt,minData, finalDia(maxData));
+    }
+
+    public Date finalDia(Date data){
+        return new Date(data.getTime() + (24 * 60 * 60 * 1000));
     }
 }
